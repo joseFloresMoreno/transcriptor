@@ -28,7 +28,7 @@ def transcribe_audios():
         whisper._MODELS_DIR = os.path.join(sys._MEIPASS, "whisper/assets")
 
     # Cargar el modelo
-    model = whisper.load_model("small")  # Puedes cambiar a "base", "medium", "large", etc.
+    model = whisper.load_model("medium")  # Puedes cambiar a "base", "medium", "large", etc.
     
     # Obtener lista de archivos de audio
     audio_files = [f for f in os.listdir(input_folder) if f.endswith(('.mp3', '.wav', '.m4a', '.flac'))]
@@ -37,19 +37,21 @@ def transcribe_audios():
         print("No se encontraron archivos de audio en la carpeta.")
         return
 
-    for audio in audio_files:
-        audio_path = os.path.join(input_folder, audio)
-        print(f"Transcribiendo: {audio}")
+    # Ruta para el archivo de transcripción único
+    transcript_file = os.path.join(input_folder, "transcripcion.txt")
+    with open(transcript_file, "w", encoding="utf-8") as outfile:
+        for audio in audio_files:
+            audio_path = os.path.join(input_folder, audio)
+            print(f"Transcribiendo: {audio}")
+            
+            # Transcribir audio
+            result = model.transcribe(audio_path)
+            
+            # Escribir encabezado y transcripción
+            outfile.write(f"Audio: {audio}\n")
+            outfile.write(result["text"] + "\n\n")
         
-        # Transcribir audio
-        result = model.transcribe(audio_path)
-        
-        # Guardar transcripción en un archivo de texto en la misma carpeta
-        transcript_path = os.path.join(input_folder, f"{os.path.splitext(audio)[0]}.txt")
-        with open(transcript_path, "w", encoding="utf-8") as file:
-            file.write(result["text"])
-        
-        print(f"Transcripción guardada en: {transcript_path}")
+        print(f"Transcripción guardada en: {transcript_file}")
 
 if __name__ == "__main__":
     transcribe_audios()
