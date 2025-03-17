@@ -1,61 +1,72 @@
-# Batch Audio Transcriber
+# Transcriptor de Audio a Subtítulos
 
-Este es un script en Python que permite transcribir por lotes archivos de audio en una carpeta utilizando el modelo Whisper de OpenAI. El programa solicita la ruta de los archivos de audio y guarda las transcripciones en archivos `.txt` en la misma ubicación.
+Una aplicación de escritorio que convierte archivos de audio a subtítulos VTT utilizando OpenAI Whisper.
 
 ## Características
-- Transcripción automática de audios en formato `.mp3`, `.wav`, `.m4a` y `.flac`.
-- Generación de archivos `.txt` con la transcripción.
-- Compatible con modelos de Whisper (`small`, `base`, `medium`, `large`).
-- Soporte para ejecución como `.exe` en Windows.
+
+- Transcribe múltiples formatos de audio (.mp3, .wav, .m4a, .flac)
+- Genera subtítulos en formato WebVTT
+- Interfaz de consola amigable con barras de progreso
+- Evita procesar archivos ya transcritos
+- Soporte multilenguaje (detección automática)
 
 ## Requisitos
 
-### Para ejecutar el script en Python:
 - Python 3.8 o superior
-- ffmpeg (añadido a las variables de entorno)
+- FFmpeg
 - Dependencias de Python:
-  ```bash
-  pip install openai-whisper torch torchaudio torchvision
-  ```
+  - openai-whisper
+  - rich
 
-### Para ejecutar la versión compilada en Windows:
-Si deseas ejecutar el programa como un `.exe`, descarga el ejecutable desde la sección de Releases o compílalo siguiendo las instrucciones a continuación.
+## Instalación
 
-## Instalación y Uso
-
-### Ejecutar en Python
-1. Clona este repositorio:
-   ```bash
-   git clone https://github.com/tu-usuario/batch-audio-transcriber.git
-   cd batch-audio-transcriber
-   ```
-2. Instala las dependencias necesarias:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Ejecuta el script:
-   ```bash
-   python transcriptor.py
-   ```
-4. Ingresa la ruta de la carpeta donde se encuentran los audios y el programa generará archivos `.txt` con las transcripciones en la misma carpeta.
-
-### Compilar como `.exe`
-Para compilar el script en Windows:
+1. Clona el repositorio
+2. Instala las dependencias:
 ```bash
-pyinstaller --onefile --hidden-import=whisper --hidden-import=torch --hidden-import=torchvision --hidden-import=torchaudio --add-data "C:\\ruta\\a\\site-packages\\whisper\\assets;whisper/assets" --name Transcriptor transcriptor.py
+pip install openai-whisper rich
 ```
 
-Esto generará un archivo `Transcriptor.exe` dentro de la carpeta `dist/`.
+## Uso
+
+1. Ejecuta el script:
+```bash
+python subtitulos.py
+```
+2. Ingresa la ruta de la carpeta que contiene tus archivos de audio
+3. El programa procesará todos los archivos de audio y generará archivos .vtt correspondientes
 
 ## Notas
-- Asegúrate de que `ffmpeg` está instalado y configurado en el `PATH` del sistema.
-- La transcripción puede tardar dependiendo del tamaño y calidad del audio.
-- El modelo `small` es el predeterminado, pero puedes cambiarlo dentro del script si deseas mayor precisión.
 
-## Licencia
-Este proyecto está bajo la licencia MIT.
+- Utiliza el modelo "medium" de Whisper por defecto
+- Los archivos de subtítulos se guardan en la misma carpeta que los archivos de audio
+- Requiere FFmpeg instalado en el sistema o en el directorio del ejecutable
 
-## Autor
-Desarrollado por [José Flores Moreno](https://github.com/joseFloresMoreno)).
+# Transcriptor de Audio
 
----
+Herramienta para transcribir archivos de audio a texto utilizando el modelo Whisper de OpenAI.
+
+## Requisitos
+
+- Python 3.7 o superior
+- FFmpeg
+- Whisper
+
+## Formatos de Audio Soportados
+
+- MP3 (.mp3)
+- WAV (.wav)
+- M4A (.m4a)
+- FLAC (.flac)
+
+## Uso
+
+1. Ejecute el programa `transcriptor.py`
+2. Ingrese la ruta completa de la carpeta que contiene los archivos de audio
+3. El programa procesará todos los archivos de audio compatibles
+4. Se generará un archivo `transcripcion.txt` en la misma carpeta con todas las transcripciones
+
+## Notas
+
+- El programa utiliza el modelo "medium" de Whisper por defecto
+- Las transcripciones se guardan en formato UTF-8
+- Cada transcripción incluye el nombre del archivo de audio como encabezado
